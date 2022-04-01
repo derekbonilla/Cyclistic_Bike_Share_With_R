@@ -8,7 +8,7 @@ You are a junior data analyst working in the marketing analyst team at Cyclistic
 
 ### Business Task
 
-*Tabspace* **How to get casual riders to buy Cyclistic annual memberships?**
+ **How to get casual riders to buy Cyclistic annual memberships?**
 
 ### About the data
 
