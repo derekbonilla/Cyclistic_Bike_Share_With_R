@@ -189,6 +189,9 @@ all_trips_v2 %>%
        title = "Average Number of Rides by Day: Members vs. Casual Riders")
 ```
 
+<img src="images/avg_rides_day_memvscas.png"/>
+
+
 Adding another visualization comparing average duration of members and casual riders.
 
 ```{r}
