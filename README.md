@@ -146,7 +146,7 @@ min(all_trips_v2$ride_length) #shortest ride
 summary(all_trips_v2$ride_length)
 ```
 
-<img src=""/>
+<img src="images/summary_ride_length.png"/>
 
 Now we compare members and casual users by aggregating the data.
 
@@ -157,7 +157,7 @@ aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = max)
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = min)
 ```
 
-<img src=""/>
+<img src="images/agg_ride_length_memvscas.png"/>
 
 
 See the average ride time by each day for members vs casual users. If you notice that the days of the week are out of order we can fix that. Note that I followed ISO 8601 for day of week order. Run `aggreagate()` again if needed to fix day of week order.
