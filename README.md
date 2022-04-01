@@ -32,10 +32,10 @@ library("lubridate") #easier to work with date-times
 library("ggplot2") #helps visualize data
 ```
 
-Additionally, use the `setwd()` function to change/set the current working directory to simplify calls to data.
+Additionally, use the `setwd()` function to change/set the current working directory to simplify calls to data. This will be different depending on the user.
 
 ```{r}
-setwd("~/Documents/Cyclistic Trip Data")
+setwd("~/Documents/Cyclistic Trip Data/Csv")
 ```
 
 ## Step 1: Collect Data
@@ -242,7 +242,8 @@ all_trips_v2 %>%
 <img src="images/avg_rides_month_cas.png"/>
 <img src="images/avg_rides_month_mem.png"/>
 
+## Observations
 
-## WRAP UP
+## Wrap Up
 
 There is a lot of data that can be used here. Other software tools like Excel, Tableau, SQL can also aid in the data analysis process.
