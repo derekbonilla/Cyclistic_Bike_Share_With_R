@@ -18,7 +18,7 @@ You are a junior data analyst working in the marketing analyst team at Cyclistic
 
 Install the required packages.
 
-```javasript
+```r
 install.packages("tidyverse")
 install.packages("lubridate")
 install.packages("ggplot2")
@@ -26,7 +26,7 @@ install.packages("ggplot2")
 
 Once the packages are installed, it can be loaded by running the `library()` function.
 
-```javascript
+```r
 library("tidyverse") #helps to wrangle the data
 library("lubridate") #easier to work with date-times
 library("ggplot2") #helps visualize data
