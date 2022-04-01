@@ -1,4 +1,4 @@
-# Google Data Analytics Capstone Project analyzed with R
+# Google Data Analytics Capstone Project Analyzed With R
 
 ## Intro
 
