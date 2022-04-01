@@ -82,3 +82,153 @@ Stack all indvidual month's data frames into one big data frame.
 ```{r}
 all_trips <- bind_rows(M1_2021,M2_2021,M3_2021,M4_2021,M5_2021,M6_2021,M7_2021,M8_2021,M9_2021,M10_2021,M11_2021,M12_2021)
 ```
+## STEP 3: Clean Up And Add Data To Prepare For Analysis
+
+Inspect that the new table has been created.
+
+```{r}
+colnames(all_trips) #List of column names  
+nrow(all_trips) #How many rows in the data frame
+dim(all_trips)  #Dimensions of the data frame
+head(all_trips) #See the first 6 rows of the data frame
+tail(all_trips) #See the last 6 rows of data frame
+str(all_trips)  #See list of columns and data types (numeric, character, etc.)
+summary(all_trips) #Statistical summary of data. Mainly for numerics.
+```
+
+A few problems to clean. (Problem 1) The data can only be aggregated at the ride-level, which is too granular. We want to add some additional columns -- such as day, month, year -- that provide opportunities to aggregate the data. (Problem 2) Since the data does not have a 'tripduration' column, we want to add "ride_length" to the entire dataframe. (Problem 3) There are  rides where "ride_length" shows up as a negative due to the bikes being serviced. We want to delete these rides.
+
+To fix (Problem 1) we add columns that list the date, month, day, and year of each ride. This will allow for aggregating ride data... before adding these operations we could only aggregate at the ride level.
+
+```{r}
+all_trips$date <- as.Date(all_trips$started_at) 
+all_trips$month <- format(as.Date(all_trips$date), "%m")
+all_trips$day <- format(as.Date(all_trips$date), "%d")
+all_trips$year <- format(as.Date(all_trips$date), "%Y")
+all_trips$day_of_week <- format(as.Date(all_trips$date), "%A")
+```
+
+(Problem 2) Add a "ride_length" calculation to all trips (in seconds). The `difftime()` function calculates dhte difference of two date/time objects and returns and object of class with an attribute indicating the units. Additionally, convert "ride_length" from Factor to Numberic to be able to run calculations on the data.
+
+```{r}
+all_trips$ride_length <- difftime(all_trips$ended_at,all_trips$started_at)
+```
+
+```{r}
+is.factor(all_trips$ride_length)
+all_trips$ride_length <- as.numeric(as.character(all_trips$ride_length))
+is.numeric(all_trips$ride_length)
+```
+
+Again, make sure to inspect the structure of the columns.
+
+```{r}
+str(all_trips) 
+```
+
+In (Problem 3) we mentioned the inconsistencies due to a few hundred entries when the bikes where take out of docks to be serviced/checked for quality, causing "ride_length" to be negative. We create a new version of the data frame (v2) since data is being removed. 
+
+```{r}
+all_trips_v2 <- all_trips[!(all_trips$ride_length<0),]
+```
+### STEP 4: Descriptive Analysis
+
+Descriptive analysis on ride_length (all figures are in seconds). Using the `summary()` function we can condense mean, median, max, min to one line. 
+
+```{r}
+mean(all_trips_v2$ride_length) #straight average (total ride length / rides)
+median(all_trips_v2$ride_length) #midpoint number in the ascending array of ride lengths
+max(all_trips_v2$ride_length) #longest ride
+min(all_trips_v2$ride_length) #shortest ride
+```
+
+```{r}
+summary(all_trips_v2$ride_length)
+```
+
+Now we compare members and casual users by aggregating the data.
+
+```{r}
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = mean)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = median)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = max)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = min)
+```
+
+See the average ride time by each day for members vs casual users. If you notice that the days of the week are out of order we can fix that. Note that I followed ISO 8601 for day of week order. Run `aggreagate()` again if needed to fix day of week order.
+
+```{r}
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN = mean)
+```
+
+```{r}
+all_trips_v2$day_of_week <- ordered(all_trips_v2$day_of_week, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+```
+
+Analyze ridership data by type and weekday
+
+```{r}
+all_trips_v2 %>% 
+  mutate(weekday = wday(started_at, label = TRUE)) %>%  #creates weekday field using wday()
+  group_by(member_casual, weekday) %>%  #groups by usertype and weekday
+  summarise(number_of_rides = n()                            #calculates the number of rides and average duration 
+            ,average_duration = mean(ride_length)) %>%         # calculates the average duration
+  arrange(member_casual, weekday)     
+```
+
+At this point I create a visualization for the average number of rider by rider type. 
+
+```{r}
+all_trips_v2 %>% 
+  group_by(member_casual, day_of_week) %>% 
+  summarise(number_of_rides = n(), .groups = 'drop') %>% 
+  #arrange(member_casual, day_of_week) %>% 
+  ggplot(aes(x = day_of_week, y = number_of_rides, fill = member_casual)) +
+  geom_col(position = "dodge") + scale_y_continuous(labels = scales::comma) +
+  labs(x = "Day of Week", y = "Number of Rides", fill = "Member/Casual",
+       title = "Average Number of Rides by Day: Members vs. Casual Riders")
+```
+
+Adding another visualization comparing average duration of members and casual riders.
+
+```{r}
+all_trips_v2 %>% 
+  group_by(member_casual, day_of_week) %>% 
+  summarise(average_duration = mean(ride_length), .groups = 'drop') %>% 
+  #arrange(member_casual, day_of_week) %>% 
+  ggplot(aes(x = day_of_week, y = average_duration, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(x = "Day of Week", y = "Average Duration (min)", 
+       fill = "Member/Casual",
+       title = "Average Riding Duration by Day: Members vs. Casual Riders")
+```
+
+Separate graphs visualizing average number of rides by month. 
+
+```{r}
+all_trips_v2 %>% 
+  group_by(month, member_casual) %>% 
+  summarize(number_of_rides = n(), .groups = 'drop') %>% 
+  filter(member_casual == 'casual') %>%
+  drop_na() %>%
+  ggplot(aes(x = month.abb, y = number_of_rides, fill = member_casual)) + 
+  geom_bar(position = 'dodge', stat = 'identity') + scale_y_continuous(labels = scales::comma) + scale_x_discrete(limits=month.abb) +
+  theme(axis.text.x = element_text(angle = 45)) + 
+  labs(x = "Month", y = "Number of Rides", 
+       fill = "Member/Casual",
+       title = "Average Number of Rides by Month: Casual Riders")
+```
+
+```{r}
+all_trips_v2 %>% 
+  group_by(month, member_casual) %>% 
+  summarize(number_of_rides = n(), .groups = 'drop') %>% 
+  filter(member_casual == 'member') %>%
+  drop_na() %>%
+  ggplot(aes(x = month.abb, y = number_of_rides, fill = member_casual)) + 
+  geom_bar(position = 'dodge', stat = 'identity') + scale_y_continuous(labels = scales::comma) + scale_x_discrete(limits=month.abb) +
+  theme(axis.text.x = element_text(angle = 45)) + 
+  labs(x = "Month", y = "Number of Rides", 
+       fill = "Member/Casual",
+       title = "Average Number of Rides by Month: Member Riders")
+```
