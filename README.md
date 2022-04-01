@@ -232,3 +232,7 @@ all_trips_v2 %>%
        fill = "Member/Casual",
        title = "Average Number of Rides by Month: Member Riders")
 ```
+
+## WRAP UP
+
+There is a lot of data that can be used here. Other software tools like Excel, Tableau, SQL can also aid in the data analysis process.
