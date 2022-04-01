@@ -206,6 +206,9 @@ all_trips_v2 %>%
        title = "Average Riding Duration by Day: Members vs. Casual Riders")
 ```
 
+<img src="images/avg_duration_day_memvscas.png"/>
+
+
 Separate graphs visualizing average number of rides by month. 
 
 ```{r}
@@ -235,6 +238,10 @@ all_trips_v2 %>%
        fill = "Member/Casual",
        title = "Average Number of Rides by Month: Member Riders")
 ```
+
+<img src="images/avg_rides_month_cas.png"/>
+<img src="images/avg_rides_month_mem.png"/>
+
 
 ## WRAP UP
 
