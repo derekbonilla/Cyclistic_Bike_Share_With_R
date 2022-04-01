@@ -2,18 +2,17 @@
 
 ## Intro
 
-### Goal
-
-...
-
-### About the data
-...
-Wandering around [Kaggle](https://www.kaggle.com/), I was looking for ideas on how to approach my SQL data cleaning project. I found the [CarPrice_Assignment](https://www.kaggle.com/goyalshalini93/car-data) dataset in another user’s notebook. It’s a great dataset to practice on because it contains inconsistencies that a data analyst would happen upon in a work project. 
-
 ### Real-world situation
 
 You are a junior data analyst working in the marketing analyst team at Cyclistic, a bike-share company in Chicago. The director of marketing believes the company’s future success depends on maximizing the number of annual memberships. Therefore, your team wants to understand how casual riders and annual members use Cyclistic bikes differently. From these insights, your team will design a new marketing strategy to convert casual riders into annual members. But first, Cyclistic executives must approve your recommendations, so they must be backed up with compelling data insights and visualizations.
 
+### Business Task
+
+**How to get casual riders to buy Cyclistic annual memberships.**
+
+### About the data
+
+To analyze and identify trends, I used Cyslistic's historical trip data which can be downloaded [here](https://divvy-tripdata.s3.amazonaws.com/index.html). (Note: The datasets have a different name because Cyclistic is a fictional company. The data ahas been made available by Motivate International Inc. under this [license](https://ride.divvybikes.com/data-license-agreement)) This is public data that can be used to explore how different customer types are using Cyclistic bikes. Data is updated monthly and I used a 12 month range from January 2021 - December 2021. 
 
 ## Prerequisite
 
