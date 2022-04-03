@@ -249,6 +249,10 @@ all_trips_v2 %>%
 
 ## Observations
 
+* Casual riders average a higher number of rides during the weekend. 
+* Across the week, the average riding time of Casual riders more than twice that of members.  
+* Similarly to Members, the summer months are when Casual riders ride the most. 
+
 ## Wrap Up
 
 There is a lot of data that can be used here. Other software tools like Excel, Tableau, SQL can also aid in the data analysis process.
