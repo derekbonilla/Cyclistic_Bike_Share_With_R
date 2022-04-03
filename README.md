@@ -206,12 +206,12 @@ all_trips_v2 %>%
   #arrange(member_casual, day_of_week) %>% 
   ggplot(aes(x = day_of_week, y = average_duration, fill = member_casual)) +
   geom_col(position = "dodge") +
-  labs(x = "Day of Week", y = "Average Duration (min)", 
+  labs(x = "Day of Week", y = "Average Duration (sec)", 
        fill = "Member/Casual",
        title = "Average Riding Duration by Day: Members vs. Casual Riders")
 ```
 
-<img src="images/avg_duration_day_memvscas.png"/>
+<img src=""/>
 
 
 Separate graphs visualizing average number of rides by month. 
