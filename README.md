@@ -253,6 +253,13 @@ all_trips_v2 %>%
 * Across the week, the average riding time of Casual riders more than twice that of members.  
 * Similarly to Members, the summer months are when Casual riders ride the most. 
 
+## Recommendations
+
+* Focus on marketing campaigns during the summer months when ridership is high.
+
+* Introduce special weekend rates, which could not only bring in more memberships, but could also lead to an increase into the number of rides for current members.
+
+* Membership rewards/points program that reward long riding times/distances.
 ## Wrap Up
 
 There is a lot of data that can be used here. Other software tools like Excel, Tableau, SQL can also aid in the data analysis process.
